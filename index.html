@@ -4,77 +4,270 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alcova — Channel manager for holiday rentals in Portugal and Spain</title>
-<meta name="description" content="Alcova, a RentalBridge company, syncs availability, rates and bookings for holiday-rental operators across Portugal and Spain.">
+<title>Alcova · Channel manager for holiday rentals in Portugal &amp; Spain</title>
+<meta name="description" content="Alcova, a RentalBridge company, keeps availability, rates and bookings in sync for holiday-rental operators across Portugal and Spain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --ink:#1b2430; --muted:#5b6675; --accent:#0f7b6c; --bg:#ffffff; --soft:#f3f6f8; }
+  :root { --ink:#14202b; --muted:#566373; --line:#e4e9ee; --accent:#0e7a6a; --accent-ink:#ffffff; --soft:#f4f7f6; --sand:#f7f1e8; }
   * { box-sizing:border-box; }
-  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:var(--bg); line-height:1.55; }
-  header, section, footer { padding: 40px 16px; }
-  .wrap { max-width: 960px; margin: 0 auto; }
-  nav { display:flex; justify-content:space-between; align-items:center; padding:16px; max-width:960px; margin:0 auto; }
-  .logo { font-weight:700; font-size:20px; color:var(--accent); }
-  nav a { color:var(--muted); text-decoration:none; margin-left:18px; font-size:15px; }
-  .hero { background:var(--soft); }
-  h1 { font-size: clamp(28px, 5vw, 42px); line-height:1.15; margin:0 0 14px; }
-  h2 { font-size: 24px; margin: 0 0 12px; }
-  p { color: var(--muted); max-width: 680px; }
-  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:18px; }
-  .card { border:1px solid #e3e8ec; border-radius:10px; padding:18px; }
-  .card h3 { margin:0 0 6px; font-size:17px; }
-  .stat { font-size:28px; font-weight:700; color:var(--accent); }
-  .btn { display:inline-block; background:var(--accent); color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; margin-top:10px; }
-  footer { border-top:1px solid #e3e8ec; font-size:14px; color:var(--muted); }
+  html { scroll-behavior:smooth; }
+  body { margin:0; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:#fff; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+  .topbar { background:var(--ink); color:#cfd8df; font-size:13px; text-align:center; padding:8px 16px; }
+  .topbar a { color:#fff; }
+  nav { position:sticky; top:0; background:rgba(255,255,255,.94); backdrop-filter:saturate(1.4) blur(8px); border-bottom:1px solid var(--line); z-index:10; }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .logo { display:flex; align-items:center; gap:10px; font-weight:700; font-size:20px; letter-spacing:-.01em; text-decoration:none; }
+  .logo svg { flex:none; }
+  .links { display:flex; gap:26px; font-size:15px; color:var(--muted); }
+  .links a { text-decoration:none; }
+  .links a:hover { color:var(--ink); }
+  .nav-cta { display:flex; gap:10px; align-items:center; }
+  .btn { display:inline-flex; align-items:center; gap:8px; border-radius:8px; padding:10px 16px; font-weight:600; font-size:15px; text-decoration:none; border:1px solid transparent; }
+  .btn-primary { background:var(--accent); color:var(--accent-ink); }
+  .btn-ghost { border-color:var(--line); color:var(--ink); background:#fff; }
+  .hero { background:linear-gradient(180deg, var(--sand) 0%, #fff 100%); padding:72px 0 56px; }
+  .hero .wrap { display:grid; grid-template-columns: 1.1fr .9fr; gap:48px; align-items:center; }
+  .eyebrow { display:inline-block; font-size:13px; font-weight:600; color:var(--accent); background:#e3f2ef; padding:4px 10px; border-radius:999px; margin-bottom:16px; }
+  h1 { font-size:clamp(32px,4.6vw,52px); line-height:1.08; letter-spacing:-.025em; margin:0 0 18px; }
+  .lead { font-size:18px; color:var(--muted); max-width:560px; margin:0 0 26px; }
+  .hero-cta { display:flex; gap:12px; flex-wrap:wrap; }
+  .trust { margin-top:22px; font-size:14px; color:var(--muted); }
+  .mock { background:#fff; border:1px solid var(--line); border-radius:14px; box-shadow:0 18px 40px -18px rgba(20,32,43,.25); padding:18px; }
+  .mock-head { display:flex; justify-content:space-between; font-size:13px; color:var(--muted); margin-bottom:12px; }
+  .cal { display:grid; grid-template-columns:110px repeat(7,1fr); gap:4px; font-size:12px; }
+  .cal div { padding:6px 4px; border-radius:6px; }
+  .cal .h { color:var(--muted); text-align:center; }
+  .cal .p { font-weight:600; }
+  .b1 { background:#d7efe9; } .b2 { background:#fde7c8; } .b3 { background:#dfe6fb; } .free { background:var(--soft); }
+  .legend { display:flex; gap:14px; font-size:12px; color:var(--muted); margin-top:12px; }
+  .legend span::before { content:""; display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+  .l1::before { background:#d7efe9; } .l2::before { background:#fde7c8; } .l3::before { background:#dfe6fb; }
+  section { padding:72px 0; }
+  .logos { padding:28px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .logos .wrap { display:flex; flex-wrap:wrap; gap:36px; justify-content:center; color:#8b97a5; font-weight:600; font-size:15px; }
+  h2 { font-size:clamp(26px,3vw,34px); letter-spacing:-.02em; line-height:1.15; margin:0 0 12px; }
+  .sub { color:var(--muted); max-width:620px; margin:0 0 34px; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .card { border:1px solid var(--line); border-radius:12px; padding:22px; background:#fff; }
+  .card h3 { font-size:17px; margin:12px 0 6px; }
+  .card p { color:var(--muted); margin:0; font-size:15px; }
+  .ico { width:36px; height:36px; border-radius:9px; background:#e3f2ef; display:grid; place-items:center; }
+  .stats { background:var(--ink); color:#fff; }
+  .stats .grid3 .card { background:transparent; border-color:#2b3a48; }
+  .stats .num { font-size:36px; font-weight:700; letter-spacing:-.02em; }
+  .stats p { color:#aebbc7; }
+  .quote { background:var(--soft); }
+  blockquote { margin:0; font-size:22px; line-height:1.45; letter-spacing:-.01em; max-width:760px; }
+  .who { margin-top:16px; color:var(--muted); font-size:15px; }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+  .check { list-style:none; padding:0; margin:0; }
+  .check li { padding:10px 0 10px 30px; border-bottom:1px solid var(--line); position:relative; }
+  .check li::before { content:""; position:absolute; left:4px; top:17px; width:12px; height:7px; border-left:2px solid var(--accent); border-bottom:2px solid var(--accent); transform:rotate(-45deg); }
+  .pricing .grid3 .card { display:flex; flex-direction:column; }
+  .price { font-size:32px; font-weight:700; margin:8px 0 2px; }
+  .per { color:var(--muted); font-size:14px; margin-bottom:14px; }
+  .pricing .card .btn { margin-top:auto; justify-content:center; }
+  .featured { border:2px solid var(--accent); }
+  .about { background:var(--sand); }
+  .team { display:flex; gap:16px; flex-wrap:wrap; margin-top:22px; }
+  .person { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid var(--line); border-radius:999px; padding:6px 14px 6px 6px; font-size:14px; }
+  .avatar { width:30px; height:30px; border-radius:50%; display:grid; place-items:center; color:#fff; font-weight:600; font-size:12px; }
+  footer { border-top:1px solid var(--line); padding:44px 0 30px; font-size:14px; color:var(--muted); }
+  .foot { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:24px; }
+  .foot h4 { color:var(--ink); font-size:14px; margin:0 0 10px; }
+  .foot a { display:block; text-decoration:none; margin:6px 0; }
+  .legal { margin-top:30px; padding-top:18px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  @media (max-width: 860px) {
+    .hero .wrap, .split { grid-template-columns:1fr; }
+    .grid3 { grid-template-columns:1fr; }
+    .links { display:none; }
+    .foot { grid-template-columns:1fr 1fr; }
+    .cal { grid-template-columns:90px repeat(7,1fr); font-size:11px; }
+  }
 </style>
 </head>
 <body>
+
+<div class="topbar">New: two-way Vrbo sync is now live for all plans. <a href="#integrations">See what's changed →</a></div>
+
 <nav>
-  <div class="logo">Alcova</div>
-  <div><a href="#product">Product</a><a href="#integrations">Integrations</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+  <div class="wrap">
+    <a class="logo" href="#">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#0e7a6a"/><path d="M7 19 L14 8 L21 19" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.5 15h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Alcova
+    </a>
+    <div class="links">
+      <a href="#product">Product</a>
+      <a href="#integrations">Integrations</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">Company</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#">Log in</a>
+      <a class="btn btn-primary" href="#demo">Book a demo</a>
+    </div>
+  </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <h1>One calendar for every booking site.</h1>
-    <p>Alcova is the channel manager for holiday-rental operators in Portugal and Spain. Availability, nightly rates and bookings stay in sync across every channel, so you never double-book a villa again.</p>
-    <a class="btn" href="#contact">Book a demo</a>
+    <div>
+      <span class="eyebrow">Channel manager for holiday rentals</span>
+      <h1>One calendar for every booking site.</h1>
+      <p class="lead">Alcova keeps availability, nightly rates and bookings in sync across every channel your villas and apartments are listed on, so you never double-book a guest again.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#demo">Book a demo</a>
+        <a class="btn btn-ghost" href="#pricing">See pricing</a>
+      </div>
+      <p class="trust">Trusted by 120 operators managing 800+ properties in Portugal and Spain.</p>
+    </div>
+    <div class="mock" aria-label="Alcova multi-calendar preview">
+      <div class="mock-head"><span>Multi-calendar · June</span><span>3 channels connected</span></div>
+      <div class="cal">
+        <div></div><div class="h">Mon</div><div class="h">Tue</div><div class="h">Wed</div><div class="h">Thu</div><div class="h">Fri</div><div class="h">Sat</div><div class="h">Sun</div>
+        <div class="p">Casa do Mar</div><div class="b1"></div><div class="b1"></div><div class="b1"></div><div class="free"></div><div class="b2"></div><div class="b2"></div><div class="b2"></div>
+        <div class="p">Quinta Azul</div><div class="free"></div><div class="b3"></div><div class="b3"></div><div class="b3"></div><div class="b3"></div><div class="free"></div><div class="b1"></div>
+        <div class="p">Villa Sol</div><div class="b2"></div><div class="b2"></div><div class="free"></div><div class="free"></div><div class="b1"></div><div class="b1"></div><div class="b1"></div>
+        <div class="p">Apt. Alfama 3</div><div class="b3"></div><div class="free"></div><div class="b1"></div><div class="b1"></div><div class="b1"></div><div class="b2"></div><div class="b2"></div>
+      </div>
+      <div class="legend"><span class="l1">Booking.com</span><span class="l2">Vrbo</span><span class="l3">Direct</span></div>
+    </div>
   </div>
 </header>
 
+<div class="logos">
+  <div class="wrap">
+    <span>Algarve Stays</span><span>Lisboa Lofts</span><span>Costa Retreats</span><span>Sevilla Homes</span><span>Ibiza Villas Co.</span><span>Porto Apartments</span>
+  </div>
+</div>
+
 <section id="product">
   <div class="wrap">
-    <h2>Built for operators, not hotels</h2>
-    <div class="grid">
-      <div class="card"><div class="stat">800+</div><h3>Properties managed</h3><p>Villas, apartments and quintas across the Algarve, Lisbon coast, Andalusia and the Balearics.</p></div>
-      <div class="card"><div class="stat">120</div><h3>Operators</h3><p>From two-property owners to agencies running 60 units.</p></div>
-      <div class="card"><div class="stat">2-way</div><h3>Real-time sync</h3><p>Rates and availability out, bookings and cancellations back in, within seconds.</p></div>
+    <h2>Built for rental operators, not hotels</h2>
+    <p class="sub">Everything you need to run dozens of properties across several booking sites, without the spreadsheet.</p>
+    <div class="grid3">
+      <div class="card">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0e7a6a" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
+        <h3>Real-time availability</h3>
+        <p>A booking on one channel closes the dates on every other one within seconds.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0e7a6a" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Nightly rates and rules</h3>
+        <p>Seasonal prices, minimum stays and weekend uplifts set once and pushed everywhere.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0e7a6a" stroke-width="2"><path d="M4 4h16v12H5.2L4 17.2z"/></svg></div>
+        <h3>One guest inbox</h3>
+        <p>Messages from every channel in one place, with templates in Portuguese, Spanish and English.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="integrations" class="hero">
+<section class="stats">
   <div class="wrap">
-    <h2>Integrations</h2>
-    <p>Two-way connections with Booking.com and Vrbo today, with more channels on the way. Partners can test against our sandbox before going live.</p>
+    <div class="grid3">
+      <div class="card"><div class="num">800+</div><p>properties managed across the Algarve, the Lisbon coast, Andalusia and the Balearics</p></div>
+      <div class="card"><div class="num">120</div><p>operators, from two-villa owners to agencies running 60 units</p></div>
+      <div class="card"><div class="num">&lt; 5 s</div><p>median time for a new booking to block dates on every connected channel</p></div>
+    </div>
   </div>
 </section>
 
-<section id="about">
-  <div class="wrap">
-    <h2>About Alcova</h2>
-    <p>Alcova was founded in Lisbon in 2019 by a team of former rental operators. <strong>Since 2025, Alcova has been part of the RentalBridge group</strong>, bringing RentalBridge's distribution network to operators in Portugal and Spain while keeping our local team and support.</p>
+<section id="integrations">
+  <div class="wrap split">
+    <div>
+      <h2>Two-way integrations, tested before you go live</h2>
+      <p class="sub">Rates and availability go out; bookings, changes and cancellations come back in. Every connection can be tested end to end in our sandbox first.</p>
+      <a class="btn btn-ghost" href="#demo">Talk to our integrations team</a>
+    </div>
+    <ul class="check">
+      <li><strong>Booking.com</strong>: two-way rates, availability and reservations</li>
+      <li><strong>Vrbo</strong>: two-way, live on all plans</li>
+      <li><strong>Direct bookings</strong>: embeddable booking widget for your own site</li>
+      <li><strong>Payments</strong>: deposits and damage holds through our payments partners</li>
+      <li><strong>Sandbox</strong>: a full test environment for every new channel</li>
+    </ul>
   </div>
 </section>
 
-<section id="contact">
+<section class="quote">
   <div class="wrap">
-    <h2>Talk to us</h2>
-    <p>Rua Augusta 100, 1100-053 Lisboa, Portugal</p>
+    <blockquote>"We went from two double-bookings a month to none. Alcova paid for itself in the first summer."</blockquote>
+    <div class="who">Inês Ferreira · Owner, Algarve Stays (34 properties)</div>
+  </div>
+</section>
+
+<section id="pricing" class="pricing">
+  <div class="wrap">
+    <h2>Simple pricing per property</h2>
+    <p class="sub">No setup fees. Cancel any time.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>Starter</h3>
+        <div class="price">€9</div><div class="per">per property / month · up to 5 properties</div>
+        <p>Multi-calendar, two channels, guest inbox.</p>
+        <a class="btn btn-ghost" href="#demo">Start free trial</a>
+      </div>
+      <div class="card featured">
+        <h3>Professional</h3>
+        <div class="price">€7</div><div class="per">per property / month · 6–50 properties</div>
+        <p>Unlimited channels, rate rules, team access, priority support.</p>
+        <a class="btn btn-primary" href="#demo">Book a demo</a>
+      </div>
+      <div class="card">
+        <h3>Agency</h3>
+        <div class="price">Custom</div><div class="per">50+ properties</div>
+        <p>Owner statements, API access and a dedicated account manager.</p>
+        <a class="btn btn-ghost" href="#demo">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="wrap split">
+    <div>
+      <h2>About Alcova</h2>
+      <p>Alcova was founded in Lisbon in 2019 by three former rental operators who were tired of reconciling calendars by hand.</p>
+      <p><strong>In 2025 Alcova joined the RentalBridge group.</strong> As a RentalBridge company we bring RentalBridge's distribution network and booking technology to operators in Portugal and Spain, while keeping our own team, our Lisbon office and our local-language support.</p>
+      <div class="team">
+        <div class="person"><span class="avatar" style="background:#0e7a6a">RC</span>Rui Costa · CTO</div>
+        <div class="person"><span class="avatar" style="background:#c9772b">AM</span>Ana Marques · CEO</div>
+        <div class="person"><span class="avatar" style="background:#4b63c4">JR</span>Javier Ruiz · Head of Spain</div>
+      </div>
+    </div>
+    <div class="card" id="demo">
+      <h3>Book a demo</h3>
+      <p>See Alcova with your own properties in 30 minutes. We reply within one working day.</p>
+      <p style="margin-top:14px">Rua Augusta 100<br>1100-053 Lisboa, Portugal</p>
+    </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">© 2026 Alcova Lda. · A RentalBridge company</div>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="logo" href="#" style="margin:0 0 10px">
+          <svg width="22" height="22" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#0e7a6a"/><path d="M7 19 L14 8 L21 19" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.5 15h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+          Alcova
+        </a>
+        <p style="margin:6px 0 0">Channel management for holiday-rental operators in Portugal and Spain. A RentalBridge company.</p>
+      </div>
+      <div><h4>Product</h4><a href="#product">Features</a><a href="#integrations">Integrations</a><a href="#pricing">Pricing</a></div>
+      <div><h4>Company</h4><a href="#about">About</a><a href="#about">RentalBridge group</a><a href="#demo">Contact</a></div>
+      <div><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Alcova Lda. · Part of the RentalBridge group</span>
+      <span>Lisboa · Sevilla</span>
+    </div>
+  </div>
 </footer>
 </body>
 </html>
